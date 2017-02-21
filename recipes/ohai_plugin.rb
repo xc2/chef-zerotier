@@ -1,9 +1,9 @@
 #
 # Cookbook:: chef-zerotier
-# Recipe:: default
+# Recipe:: ohai_plugin
 #
 # Copyright:: 2017, ZeroTier, Inc., All Rights Reserved.
 
 include_recipe 'chef-zerotier::install'
 
-include_recipe 'chef-zerotier::ohai_plugin'
+ohai_plugin 'zerotier_ohai'

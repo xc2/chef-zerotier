@@ -2,8 +2,8 @@ name 'chef-zerotier'
 maintainer 'Grant Limberg'
 maintainer_email 'grant.limberg@zerotier.com'
 license 'GPL v3'
-description 'Installs/Configures chef-zerotier'
-long_description 'Installs/Configures chef-zerotier'
+description 'Installs/Configures ZeroTier'
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version '0.1.0'
 
 # The `issues_url` points to the location where issues for this cookbook are
@@ -17,3 +17,9 @@ version '0.1.0'
 # a Supermarket.
 #
 # source_url 'https://github.com/<insert_org_here>/chef-zerotier' if respond_to?(:source_url)
+
+%w(redhat centos amazon ubuntu debian).each do |os|
+    supports os
+end
+
+depends 'ohai'

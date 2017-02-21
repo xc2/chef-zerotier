@@ -14,13 +14,21 @@ verifier:
 
 platforms:
   - name: ubuntu-16.04
-  - name: centos-7.2
+    driver:
+      provider: vmware_workstation
+  - name: centos-7.3
+    driver:
+      provider: vmware_workstation
 
 suites:
   - name: default
     run_list:
-      - recipe[chef-zerotier::default]
-    verifier:
-      inspec_tests:
-        - test/smoke/default
+      - recipe[chef-zerotier::install]
+      - recipe[chef-zerotier::ohai_plugin]
+    #verifier:
+    #  inspec_tests:
+    #    - test/smoke/install
     attributes:
+      ohai:
+        plugin_path: /tmp/kitchen/ohai/plugins
+
