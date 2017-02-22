@@ -19,16 +19,20 @@ platforms:
   - name: centos-7.3
     driver:
       provider: vmware_workstation
+  - name: fedora-25
+    driver:
+      provider: vmware_workstation
+  - name: debian-8.7
+    driver:
+      provider: vmware_workstation
 
 suites:
   - name: default
     run_list:
-      - recipe[chef-zerotier::install]
-      - recipe[chef-zerotier::ohai_plugin]
+      - recipe[zerotier::install]
+      - recipe[zerotier::ohai_plugin]
+      - recipe[zerotier::join_networks]
     #verifier:
     #  inspec_tests:
     #    - test/smoke/install
     attributes:
-      ohai:
-        plugin_path: /tmp/kitchen/ohai/plugins
-

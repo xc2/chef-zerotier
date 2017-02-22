@@ -1,16 +1,23 @@
 
+# Not set by default.
+# default['zerotier']['version']
+#
 
+default['zerotier']['central_url'] = 'https://my.zerotier.com'
 
-default['zt']['central_url'] = 'https://my.zerotier.com'
-default['zt']['api_url'] = URI.join(node['zt']['central_url'], '/api/')
-
-# Public networks to autojoin.  Does not require api_key
-default['zt']['public_autojoin'] = []
+# Public networks to autojoin.
+default['zerotier']['public_autojoin'] = []
 
 # Private networks to autojoin.  Requires ZeroTier Central API api key.
 #
 # Packed in the following format:
 #
-#    [{:network_id => "", :api_key => "key"},...]
+#    [{
+#       :network_id => "", 
+#       :auth_token => "key",
+#       :central_url => "http://my.zerotier.com" // optional.  Defaults to https://my.zerotier.com
+#     },
+#     ...
+#    ]
 #
-default['zt']['private_autojoin'] = []
+default['zerotier']['private_autojoin'] = []
