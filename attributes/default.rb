@@ -1,6 +1,6 @@
 
 # Not set by default.
-# default['zerotier']['version']
+# default['zerotier']['install_version']
 #
 
 default['zerotier']['central_url'] = 'https://my.zerotier.com'

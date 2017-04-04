@@ -31,7 +31,7 @@ Shortcut to automatically join networks stored in attributes (See example in the
 
 Attributes
 ---------------------
-`node['zerotier']['version']` 
+`node['zerotier']['install_version']` 
 
 Version of ZeroTier to install.  Empty by default and defaults to the latest version available.
 
@@ -65,3 +65,4 @@ Attributes:
 - node_name - Name of the node to put in https://my.zerotier.com (only applicable when joining a private network)
 - auth_token - API access token generated in your account at https://my.zerotier.com. Required if you wish to automatically authorize the node to join the network.
 - central_url - URL to the instance of ZeroTier Central.  Defaults to https://my.zerotier.com.
+- action - `:join` or `:leave`.  Defaults to `:join`

@@ -36,7 +36,7 @@ end
 
 package 'zerotier-one' do
     if node['zerotier']['version']
-        version node['zerotier']['version']
+        version node['zerotier']['install_version']
     end
 end
 
