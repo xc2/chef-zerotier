@@ -21,3 +21,8 @@ default['zerotier']['public_autojoin'] = []
 #    ]
 #
 default['zerotier']['private_autojoin'] = []
+
+# Binary path to ZeroTier.  Shouldn't be changed unless you know what you're doing
+default['zerotier']['binary'] = '/usr/sbin/zerotier-cli'
+default['zerotier']['data_dir'] = '/var/lib/zerotier-one'
+default['zerotier']['control_port'] = 9993

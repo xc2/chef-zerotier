@@ -2,10 +2,15 @@
 Ohai.plugin(:ZeroTier) do
     provides 'zerotier'
 
+    def zerotier_command (subcommand)
+        return "<%= @zerotier_binary %> <% unless @zerotier_binary.end_with?('-cli') %>-q<% end %> #{subcommand} -p<%= @control_port %> -D<%= @data_dir %>"
+    end
+
     def linux_get_networks
         networks = Mash.new
-
-        so = shell_out('/usr/sbin/zerotier-cli listnetworks')
+        cmd = zerotier_command('listnetworks')
+        Ohai::Log.info(cmd)
+        so = shell_out(cmd)
         first_line = true
         so.stdout.lines do |line|
             if first_line
@@ -36,37 +41,31 @@ Ohai.plugin(:ZeroTier) do
     def linux_get_node_id
         node_id = ''
 
-        if ::File.exists?('/var/lib/zerotier-one/identity.public')
-            node_id = ::File.read('/var/lib/zerotier-one/identity.public')
+        if ::File.exists?("<%= @data_dir %>/identity.public")
+            node_id = ::File.read("<%= @data_dir %>/identity.public")
             node_id = node_id[0..9]
             Ohai
         else
-            Ohai::Log.warn("'/var/lib/zerotier-one/identity.public' does not exist")
+            Ohai::Log.warn("<%= @data_dir %>/identity.public' does not exist")
         end
 
         return node_id unless node_id.empty?
     end
 
     def get_version
-        so = shell_out("/usr/sbin/zerotier-cli -v 2>&1")
+        so = shell_out("<%= @zerotier_binary %> -v 2>&1")
         version = so.stdout.strip
         return version unless version.empty?
     end
 
-    def find_zerotier
-        so = shell_out("/bin/bash -c 'command -v zerotier-cli'")
-        zerotier_bin = so.stdout.strip
-        return zerotier_bin unless zerotier_bin.empty?
-    end
-
     collect_data(:linux) do
-        if find_zerotier
+        if ::File.exists?("<%= @zerotier_binary %>")
             zerotier Mash.new
             zerotier[:version]    = get_version
             zerotier[:node_id]    = linux_get_node_id
             zerotier[:networks]   = linux_get_networks
         else
-            Ohai::Log.warn("Cannot find zerotier-cli")
+            Ohai::Log.warn("Cannot find zerotier binary")
         end
     end
 end
