@@ -19,11 +19,11 @@ module ChefZerotierCookbook
 
         action :join do
             if ::File.exists?(format("/var/lib/zerotier-one/networks.d/%s.conf", network_id))
-                Chef::Log.info("Network %s already joined. Skipping.", network_id)
+                Chef::Log.info(format("Network %s already joined. Skipping.", network_id))
             else
                 join = Mixlib::ShellOut.new(format("/usr/sbin/zerotier-cli join %s", network_id))
                 join.run_command
-                raise format(format("Error joining network %s", network_id)) if join.error?
+                raise format("Error joining network %s", network_id) if join.error?
 
                 if auth_token
                     url = URI.parse(format("%s/api/network/%s/member/%s/", central_url, network_id, node['zerotier']['node_id']))
