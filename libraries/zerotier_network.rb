@@ -21,7 +21,7 @@ module ChefZerotierCookbook
             if ::File.exists?(format("/var/lib/zerotier-one/networks.d/%s.conf", network_id))
                 Chef::Log.info("Network %s already joined. Skipping.", network_id)
             else
-                join = Mixlob::ShellOut.new(format("/usr/sbin/zerotier-cli join %s", network_id))
+                join = Mixlib::ShellOut.new(format("/usr/sbin/zerotier-cli join %s", network_id))
                 join.run_command
                 raise format("Error joining network %s", network_id) if join.error?
 
