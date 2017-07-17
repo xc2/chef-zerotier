@@ -23,7 +23,7 @@ module ChefZerotierCookbook
             else
                 join = Mixlib::ShellOut.new(format("/usr/sbin/zerotier-cli join %s", network_id))
                 join.run_command
-                raise format("Error joining network %s", network_id) if join.error?
+                raise format(format("Error joining network %s", network_id)) if join.error?
 
                 if auth_token
                     url = URI.parse(format("%s/api/network/%s/member/%s/", central_url, network_id, node['zerotier']['node_id']))
