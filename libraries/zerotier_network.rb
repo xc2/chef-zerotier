@@ -6,7 +6,7 @@ require "net/https"
 require "json"
 
 module ChefZerotierCookbook
-    class ZerotierNetwork
+    class ZerotierNetwork < Chef::Resource
         resource_name :zerotier_network
 
         default_action :join
