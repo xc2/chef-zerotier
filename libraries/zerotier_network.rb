@@ -53,7 +53,7 @@ module ChefZerotierCookbook
             leave = Mixlib::ShellOut.new(format('/usr/sbin/zerotier-cli leave %s', network_id))
             leave.run_command
             error = JSON.parse(response.body)
-            raise format('Error %s authorizing network: %s: %s', response.code. error['type'], error['message'])
+            raise format('Error %s authorizing network: %s: %s', response.code, error['type'], error['message'])
           end
         end
 
