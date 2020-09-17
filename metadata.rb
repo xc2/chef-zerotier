@@ -7,8 +7,8 @@ version '1.0.7'
 issues_url 'https://github.com/zerotier/chef-zerotier/issues'
 source_url 'https://github.com/zerotier/chef-zerotier'
 
-%w(redhat centos amazon ubuntu debian).each do |os|
-    supports os
+%w(redhat centos amazon scientific ubuntu debian).each do |os|
+  supports os
 end
 
 depends 'ohai'
