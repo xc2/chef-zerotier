@@ -1,8 +1,8 @@
 require 'chef/log'
 require 'uri'
 require 'mixlib/shellout'
+require 'openssl'
 require 'net/http'
-require 'net/https'
 require 'json'
 
 module ChefZerotierCookbook
