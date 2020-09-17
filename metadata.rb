@@ -1,7 +1,7 @@
 name 'zerotier'
 maintainer 'Grant Limberg'
 maintainer_email 'grant.limberg@zerotier.com'
-license 'GPL v3'
+license 'GPL-3.0'
 description 'Installs/Configures ZeroTier'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version '1.0.7'
