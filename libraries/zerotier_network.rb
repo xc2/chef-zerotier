@@ -13,7 +13,7 @@ module ChefZerotierCookbook
     default_action :join
 
     # Set the properties for the resource
-    property :network_id, String, name_property: true, required: true
+    property :network_id, String, name_property: true
     property :node_name, String, required: true
     property :auth_token, String, required: true
     property :central_url, String, default: 'https://my.zerotier.com'
