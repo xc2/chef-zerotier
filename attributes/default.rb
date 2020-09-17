@@ -13,7 +13,7 @@ default['zerotier']['public_autojoin'] = []
 # Packed in the following format:
 #
 #    [{
-#       :network_id => "", 
+#       :network_id => "",
 #       :auth_token => "key",
 #       :central_url => "http://my.zerotier.com" // optional.  Defaults to https://my.zerotier.com
 #     },
