@@ -1,15 +1,16 @@
 name 'zerotier'
 maintainer 'Grant Limberg'
 maintainer_email 'grant.limberg@zerotier.com'
-license 'GPL v3'
+license 'GPL-3.0'
 description 'Installs/Configures ZeroTier'
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version '1.0.7'
-issues_url 'https://github.com/zerotier/chef-zerotier/issues' if respond_to?(:issues_url)
-source_url 'https://github.com/zerotier/chef-zerotier' if respond_to?(:source_url)
+issues_url 'https://github.com/zerotier/chef-zerotier/issues'
+source_url 'https://github.com/zerotier/chef-zerotier'
 
-%w(redhat centos amazon ubuntu debian).each do |os|
-    supports os
+%w(redhat centos amazon scientific ubuntu debian).each do |os|
+  supports os
 end
+
+chef_version '> 12.15'
 
 depends 'ohai'
