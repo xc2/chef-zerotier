@@ -1,15 +1,9 @@
-#
-# Cookbook:: zerotier
-# Recipe:: ohai_plugin
-#
-# Copyright:: 2017, ZeroTier, Inc., All Rights Reserved.
+ohai "zerotier info" do
+  plugin "zerotier_info"
+  action :reload
+end
 
-ohai_plugin 'zerotier_ohai' do
-  compile_time false
-  resource :template
-  variables({
-      zerotier_binary: node['zerotier']['binary'],
-      control_port: node['zerotier']['control_port'],
-      data_dir: node['zerotier']['data_dir'],
-  })
+ohai "zerotier networks" do
+  plugin "zerotier_networks"
+  action :reload
 end
