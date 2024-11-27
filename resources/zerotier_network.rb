@@ -1,16 +1,20 @@
 provides :zerotier_network
 property :network_id, String, name_property: true
-property :node_name, String, required: false
-property :auth_token, String, required: false
+property(:node_name, String, default: lazy { node['fqdn'] })
+property :auth_token, String
 # not used
-property :central_url, String, default: 'https://my.zerotier.com'
+property(:central_url, String, default: lazy { node['zerotier']['central_url'] })
+property(:binary, String, default: lazy { node['zerotier']['binary'] })
+property(:data_dir, String, default: lazy { node['zerotier']['data_dir'] })
+property(:control_port, Integer, default: lazy { node['zerotier']['control_port'] })
 
 action :join do
-  network_id = new_resource.network_id
-  node_name = (new_resource.node_name or node['fqdn'])
-  auth_token = new_resource.auth_token
-  command = [node['zerotier']['binary']]
-  conf_file = "#{node['zerotier']['data-dir']}/networks.d/#{network_id}.conf"
+  r = new_resource
+  network_id = r.network_id
+  node_name = r.node_name
+  auth_token = r.auth_token
+  command = [r.binary, "-p#{r.control_port}", "-D#{r.data_dir}"]
+  conf_file = "#{r.data_dir}/networks.d/#{network_id}.conf"
 
   unless auth_token.to_s.empty?
     command << "-T#{auth_token}"
@@ -25,11 +29,12 @@ action :join do
 end
 
 action :leave do
-  network_id = new_resource.network_id
-  node_name = (new_resource.node_name or node['fqdn'])
-  auth_token = new_resource.auth_token
-  command = [node['zerotier']['binary']]
-  conf_file = "#{node['zerotier']['data-dir']}/networks.d/#{network_id}.conf"
+  r = new_resource
+  network_id = r.network_id
+  node_name = r.node_name
+  auth_token = r.auth_token
+  command = [r.binary, "-p#{r.control_port}", "-D#{r.data_dir}"]
+  conf_file = "#{r.data_dir}/networks.d/#{network_id}.conf"
 
   unless auth_token.to_s.empty?
     command << "-T#{auth_token}"
