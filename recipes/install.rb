@@ -35,13 +35,29 @@ else
   Chef::Log.fatal("Platform Family '#{node['platform_family']}' is not yet supported by this recipe")
 end
 
+directory "/etc/systemd/system/#{node['zerotier']['service_name']}.service.d"
+template "/etc/systemd/system/#{node['zerotier']['service_name']}.service.d/50-chef-zerotier.conf" do
+  source "service.overrides.erb"
+  variables({
+    binary: node['zerotier']['service_binary'],
+    control_port: node['zerotier']['control_port'],
+    data_dir: node['zerotier']['data_dir'],
+  })
+  notifies :run, 'execute[systemctl daemon-reload]', :immediately
+  notifies :restart, "service[#{node['zerotier']['service_name']}]", :immediately
+end
+
+execute 'systemctl daemon-reload' do
+  action :nothing
+end
+
 package 'zerotier-one' do
   if node['zerotier']['version']
     version node['zerotier']['install_version']
   end
 end
 
-service 'zerotier-one' do
+service node['zerotier']['service_name'] do
   action [:enable, :start]
   supports status: true, restart: true, start: true, stop: true
 end
