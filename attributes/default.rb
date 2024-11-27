@@ -5,10 +5,8 @@
 
 default['zerotier']['central_url'] = 'https://my.zerotier.com'
 
-# Public networks to autojoin.
-default['zerotier']['public_autojoin'] = []
 
-# Private networks to autojoin.  Requires ZeroTier Central API api key.
+#  Networks to autojoin
 #
 # Packed in the following format:
 #
@@ -20,7 +18,7 @@ default['zerotier']['public_autojoin'] = []
 #     ...
 #    ]
 #
-default['zerotier']['private_autojoin'] = []
+default['zerotier']['managed_networks'] = {}
 
 # Binary path to ZeroTier.  Shouldn't be changed unless you know what you're doing
 default['zerotier']['binary'] = '/usr/sbin/zerotier-cli'

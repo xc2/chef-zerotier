@@ -6,18 +6,28 @@
 
 include_recipe 'zerotier::ohai_plugin'
 
-node['zerotier']['public_autojoin'].each do |nwid|
-  zerotier_network nwid do
-    action :join
+node['zerotier']['managed_networks'].each do |name, nw|
+  network = {
+    'network_id' => name,
+    'disabled' => false,
+  }
+  if nw.nil?
+    nw = true
   end
-end
+  if nw == true || nw == false
+    network['disabled'] = !nw
+  end
+  if nw.is_a?(String)
+    network['network_id'] = nw
+  end
+  if nw.is_a?(Hash)
+    network = network.merge(nw)
+  end
 
-node['zerotier']['private_autojoin'].each do |network|
-  zerotier_network network['network_id'] do
-    only_if { network.key?('auth_token') }
-    action :join
+  zerotier_network name do
+    network_id network['network_id']
+    action network['disabled'] ? :leave : :join
+    node_name network['node_name']
     auth_token network['auth_token']
-    central_url network.key?('central_url') ? network[:central_url] : 'https://my.zerotier.com'
-    node_name node['fqdn']
   end
 end
