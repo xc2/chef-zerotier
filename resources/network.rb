@@ -1,8 +1,8 @@
 require 'uri'
 
 property :network_id, String, name_property: true
-property :node_name, String, required: true
-property :auth_token, String, required: true
+property :node_name, String, required: false
+property :auth_token, String, required: false
 property :central_url, String, default: 'https://my.zerotier.com'
 
 action :join do
@@ -15,6 +15,7 @@ action :join do
 
       if auth_token
         url = URI.parse(format('%s/api/network/%s/member/%s/', central_url, network_id, node['zerotier']['node_id']))
+        node_name = node_name.nil? ? node['fqdn'] : node_name
 
         netinfo = {
             networkId: network_id,
