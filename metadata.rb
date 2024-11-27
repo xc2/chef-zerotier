@@ -11,6 +11,4 @@ source_url 'https://github.com/zerotier/chef-zerotier'
   supports os
 end
 
-chef_version '> 12.15'
-
-depends 'ohai'
+chef_version '>= 16.0'

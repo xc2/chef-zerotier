@@ -60,6 +60,16 @@ end
 service node['zerotier']['service_name'] do
   action [:enable, :start]
   supports status: true, restart: true, start: true, stop: true
+  notifies :reload, 'ohai[zerotier info]', :delayed
+  notifies :reload, 'ohai[zerotier networks]', :delayed
 end
 
-include_recipe 'zerotier::ohai_plugin'
+ohai "zerotier info" do
+  plugin "zerotier_info"
+  action :nothing
+end
+
+ohai "zerotier networks" do
+  plugin "zerotier_networks"
+  action :nothing
+end

@@ -4,9 +4,7 @@
 #
 # Copyright:: 2017, ZeroTier, Inc., All Rights Reserved.
 
-include_recipe 'zerotier::ohai_plugin'
-
-node['zerotier']['managed_networks'].each do |name, nw|
+node['zerotier']['networks'].each do |name, nw|
   network = {
     'network_id' => name,
     'disabled' => false,
@@ -27,7 +25,6 @@ node['zerotier']['managed_networks'].each do |name, nw|
   zerotier_network name do
     network_id network['network_id']
     action network['disabled'] ? :leave : :join
-    node_name network['node_name']
     auth_token network['auth_token']
   end
 end

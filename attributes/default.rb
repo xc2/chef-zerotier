@@ -18,7 +18,7 @@ default['zerotier']['central_url'] = 'https://my.zerotier.com'
 #     ...
 #    ]
 #
-default['zerotier']['managed_networks'] = {}
+default['zerotier']['networks'] = {}
 
 # Binary path to ZeroTier.  Shouldn't be changed unless you know what you're doing
 default['zerotier']['binary'] = '/usr/sbin/zerotier-cli'
