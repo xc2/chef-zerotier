@@ -3,8 +3,8 @@ Ohai.plugin(:ZerotierNetworks) do
 
   collect_data(:linux) do
     zerotier_networks Mash.new
-    if ChefZerotier::Helpers.binary_exists?
-      so = ChefZerotier::Helpers.json('listnetworks')
+    if ChefZerotier::Helpers.binary_exists?(node)
+      so = ChefZerotier::Helpers.command(node, 'listnetworks')
 
       if so.is_a?(Array)
         so.each do |network|

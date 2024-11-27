@@ -4,8 +4,6 @@
 #
 # Copyright:: 2017, ZeroTier, Inc., All Rights Reserved.
 
-include_recipe 'zerotier::ohai_plugin'
-
 case node['platform_family']
 when 'debian'
   apt_repository 'zerotier' do
@@ -64,4 +62,14 @@ service node['zerotier']['service_name'] do
   supports status: true, restart: true, start: true, stop: true
   notifies :reload, 'ohai[zerotier info]', :delayed
   notifies :reload, 'ohai[zerotier networks]', :delayed
+end
+
+ohai "zerotier info" do
+  plugin "zerotier_info"
+  action :nothing
+end
+
+ohai "zerotier networks" do
+  plugin "zerotier_networks"
+  action :nothing
 end

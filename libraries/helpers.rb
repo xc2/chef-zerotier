@@ -5,8 +5,8 @@ module ChefZerotier
   module Helpers
     @@binary = nil
 
-    def binary
-      unless @@binary.nil?
+    def self.binary(node)
+      if @@binary.nil?
         if ::File.exist?(node['zerotier']['binary'])
           @@binary = {:type => 'cli', :path => node['zerotier']['binary']}
         elsif ::File.exist?(node['zerotier']['service_binary'])
@@ -16,25 +16,25 @@ module ChefZerotier
       @@binary
     end
 
-    def binary_exists?()
-      !binary.nil?
+    def self.binary_exists?(node)
+      !binary(node).nil?
     end
-    def generate_command(subcommand)
-      if binary.nil?
+    def self.generate_command(node, subcommand)
+      if binary(node).nil?
         raise "Cannot find zerotier binary"
       end
       if subcommand.is_a?(Array)
         subcommand = subcommand.join(' ')
       end
-      if binary[:type] == 'cli'
-        "#{binary[:path]} -p#{node['zerotier']['control_port']} '-D#{node['zerotier']['data_dir']}' #{subcommand}"
+      if @@binary[:type] == 'cli'
+        "#{@@binary[:path]} -p#{node['zerotier']['control_port']} '-D#{node['zerotier']['data_dir']}' #{subcommand}"
       else
-        "#{binary[:path]} -q #{subcommand} -p#{node['zerotier']['control_port']} '-D#{node['zerotier']['data_dir']}"
+        "#{@@binary[:path]} -q #{subcommand} -p#{node['zerotier']['control_port']} '-D#{node['zerotier']['data_dir']}"
       end
     end
 
-    def command(subcommand, ignore_failure = false, defaults = {})
-      so = shell_out("-j #{generate_command(subcommand)}")
+    def self.command(node, subcommand, ignore_failure = false, defaults = {})
+      so = shell_out("-j #{generate_command(node, subcommand)}")
       if so.exitstatus == 0
         Chef::JSONCompat.from_json(so.stdout, symbolize_keys: true)
       elsif ignore_failure
