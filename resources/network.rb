@@ -5,6 +5,7 @@ default_action :join
 
 action_class do
   def do_action(r, act = :join)
+    zt = ChefZerotier::Zerotier.new(**node['zerotier'].to_hash)
     ohai "zerotier networks" do
       plugin "zerotier_networks"
       action :nothing
@@ -23,11 +24,11 @@ action_class do
     command << work << network_id
 
     execute "#{work} #{network_id}" do
-      command ChefZerotier::Helpers.generate_command(node, command)
+      command zt.generate_command(command)
       if should_absent
-        only_if node['zerotier_networks'][r.network_id]
+        only_if { zt.network_exists?(network_id) }
       else
-        not_if node['zerotier_networks'][r.network_id]
+        not_if { zt.network_exists?(network_id) }
       end
       notifies :reload, "ohai[zerotier networks]", :delayed
     end
