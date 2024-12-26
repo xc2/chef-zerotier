@@ -43,10 +43,10 @@ module ChefZerotier
       elsif subcommand.is_a?(Array)
         cmd += subcommand
       end
-      unless control_port.nil?
+      unless @control_port.nil?
         cmd << "-p#{@control_port}"
       end
-      unless data_dir.nil?
+      unless @data_dir.nil?
         cmd << "-D#{@data_dir}"
       end
 

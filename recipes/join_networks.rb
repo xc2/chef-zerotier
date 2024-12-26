@@ -12,7 +12,7 @@ node['zerotier']['networks'].each do |name, nw|
   if nw.nil?
     nw = true
   end
-  if nw == true || nw == false
+  if nw.is_a?(TrueClass) || nw.is_a?(FalseClass)
     network['disabled'] = !nw
   end
   if nw.is_a?(String)

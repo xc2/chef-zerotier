@@ -5,7 +5,8 @@ default_action :join
 
 action_class do
   def do_action(r, act = :join)
-    zt = ChefZerotier::Zerotier.new(**node['zerotier'].to_hash)
+    c = node['zerotier'].to_hash
+    zt = ChefZerotier::Zerotier.new(data_dir:c['data_dir'], binary:c['binary'], service_binary:c['service_binary'], control_port:c['control_port'])
     ohai "zerotier networks" do
       plugin "zerotier_networks"
       action :nothing
